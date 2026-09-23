@@ -1,78 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-    android:installLocation="auto">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="client.eli5.game">
 
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-	<uses-feature android:glEsVersion="0x00020000" />
+    <!-- Basic App Hardware & Feature Requirements -->
+    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="true" />
 
-	<application
-		android:allowBackup="false"
-		android:icon="@mipmap/ic_launcher"
-		android:label="@string/label"
-		android:resizeableActivity="false"
-		android:appCategory="game"
-		tools:ignore="UnusedAttribute">
+    <!-- Network Permissions (For Multiplayer & Server Downloads) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-		<meta-data
-			android:name="android.max_aspect"
-			android:value="3.0" />
+    <!-- Storage Permissions for /storage/emulated/0/ELI5 Access -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" tools:ignore="ScopedStorage" />
+    
+    <!-- Full File Access Permission for Android 11+ (API 30+) -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
 
-		<activity
-			android:name=".MainActivity"
-			android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-			android:maxAspectRatio="3.0"
-			android:screenOrientation="sensorLandscape"
-			android:theme="@style/AppTheme"
-			android:exported="true">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="ELI 5"
+        android:hardwareAccelerated="true"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
-		<activity
-			android:name=".GameActivity"
-			android:configChanges="orientation|keyboard|keyboardHidden|navigation|screenSize|smallestScreenSize"
-			android:hardwareAccelerated="true"
-			android:launchMode="singleTask"
-			android:maxAspectRatio="3.0"
-			android:screenOrientation="sensorLandscape"
-			android:theme="@style/AppTheme"
-			android:exported="true">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-			</intent-filter>
-		</activity>
-
-		<service
-			android:name=".UnzipService"
-			android:enabled="true"
-			android:exported="false" />
-
-		<!-- FIXME: we can probably drop this and use the documents provider to share files -->
-		<provider
-			android:name="androidx.core.content.FileProvider"
-			android:authorities="net.minetest.minetest.fileprovider"
-			android:grantUriPermissions="true"
-			android:exported="false">
-			<meta-data
-				android:name="android.support.FILE_PROVIDER_PATHS"
-				android:resource="@xml/filepaths" />
-		</provider>
-
-		<provider
-            android:name=".LuantiDocumentsProvider"
-            android:authorities="net.minetest.minetest.documents"
+        <!-- Main Native Activity Entry Point -->
+        <activity
+            android:name="client.eli5.game.MainActivity"
+            android:label="ELI 5"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallScreenSize|screenLayout|navigation|uiMode"
             android:exported="true"
-            android:grantUriPermissions="true"
-            android:permission="android.permission.MANAGE_DOCUMENTS">
-            <intent-filter>
-                <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
-            </intent-filter>
-        </provider>
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape">
 
-</application>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Metadata pointing to the engine's compiled C++ shared library -->
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="luanti" />
+        </activity>
+
+    </application>
 
 </manifest>
+
