@@ -1,4 +1,4 @@
-Name: android
+name: android
 
 # build on c/cpp changes or workflow changes
 on:
