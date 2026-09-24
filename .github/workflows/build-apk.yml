@@ -1,7 +1,8 @@
-name: android
+Name: android
 
 # build on c/cpp changes or workflow changes
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'lib/**.[ch]'
@@ -74,3 +75,4 @@ jobs:
       with:
         name: Luanti-x86_64.apk
         path: android/app/build/outputs/apk/release/app-x86_64-release-unsigned.apk
+        
