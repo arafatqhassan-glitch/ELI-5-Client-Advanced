@@ -6,7 +6,7 @@ endif()
 # This can be read from ${PROJECT_NAME} after project() is called
 project(luanti)
 set(PROJECT_NAME_CAPITALIZED "Luanti")
-
+string(REPLACE "-fuse-ld=gold" "-fuse-ld=lld" CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS}")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(GCC_MINIMUM_VERSION "7.5")
