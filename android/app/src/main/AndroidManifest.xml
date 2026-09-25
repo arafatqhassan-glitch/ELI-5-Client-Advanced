@@ -30,7 +30,7 @@
         <activity
             android:name="client.eli5.game.MainActivity"
             android:label="ELI 5"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallScreenSize|screenLayout|navigation|uiMode"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|navigation|uiMode"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="sensorLandscape">
@@ -49,4 +49,3 @@
     </application>
 
 </manifest>
-
