@@ -24,7 +24,7 @@
         android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        android:theme="@style/Theme.AppCompat.NoActionBar.Fullscreen">
 
         <!-- Main Native Activity Entry Point -->
         <activity
