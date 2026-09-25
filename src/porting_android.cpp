@@ -93,12 +93,39 @@ static std::string readJavaString(jstring j_str)
 	return str;
 }
 
-// Simplified path setter forcing public storage
 bool setSystemPaths()
 {
+	// Base default paths
 	path_user = "/storage/emulated/0/ELI5";
 	path_share = "/storage/emulated/0/ELI5";
 	path_cache = "/storage/emulated/0/ELI5/cache";
+
+	// JNI resolution directly from GameActivity
+	if (jnienv != nullptr && activityClass != nullptr && activity != nullptr) {
+		jmethodID getUserDataPath = jnienv->GetMethodID(activityClass, "getUserDataPath", "()Ljava/lang/String;");
+		if (getUserDataPath != nullptr) {
+			jobject result = jnienv->CallObjectMethod(activity, getUserDataPath);
+			if (result != nullptr) {
+				std::string str = readJavaString((jstring)result);
+				if (!str.empty()) {
+					path_user = str;
+					path_share = str;
+				}
+			}
+		}
+
+		jmethodID getCachePath = jnienv->GetMethodID(activityClass, "getCachePath", "()Ljava/lang/String;");
+		if (getCachePath != nullptr) {
+			jobject result = jnienv->CallObjectMethod(activity, getCachePath);
+			if (result != nullptr) {
+				std::string str = readJavaString((jstring)result);
+				if (!str.empty()) {
+					path_cache = str;
+				}
+			}
+		}
+	}
+
 	return true;
 }
 
