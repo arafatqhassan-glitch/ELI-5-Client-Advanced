@@ -39,6 +39,9 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+import java.io.PrintWriter;
+
 import static net.minetest.minetest.UnzipService.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -89,6 +92,17 @@ public class MainActivity extends AppCompatActivity {
 	@SuppressLint("UnspecifiedRegisterReceiverFlag")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		// Catch early Java / Native initialization crashes and save to file
+		Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+			try {
+				File file = new File(getExternalFilesDir(null), "crash.txt");
+				PrintWriter pw = new PrintWriter(file);
+				throwable.printStackTrace(pw);
+				pw.close();
+			} catch (Exception ignored) {}
+			System.exit(1);
+		});
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
@@ -173,4 +187,5 @@ public class MainActivity extends AppCompatActivity {
 		super.onDestroy();
 		unregisterReceiver(myReceiver);
 	}
-}
+			}
+		
