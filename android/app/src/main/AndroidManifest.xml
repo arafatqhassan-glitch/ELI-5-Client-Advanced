@@ -28,7 +28,7 @@
 
         <!-- Main Native Activity Entry Point -->
         <activity
-            android:name="client.eli5.game.MainActivity"
+            android:name="net.minetest.minetest.MainActivity"
             android:label="ELI 5"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|navigation|uiMode"
             android:exported="true"
