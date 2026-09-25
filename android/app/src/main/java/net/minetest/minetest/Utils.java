@@ -55,4 +55,5 @@ public class Utils {
             new File(userDataDirectory, "client").isDirectory() &&
             new File(userDataDirectory, "textures").isDirectory();
     }
-}
+	}
+			
