@@ -28,7 +28,6 @@
         <activity
             android:name="net.minetest.minetest.MainActivity"
             android:label="ELI 5"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|navigation|uiMode"
             android:exported="true"
             android:launchMode="singleTask"
@@ -45,6 +44,12 @@
                 android:value="luanti" />
         </activity>
 
+        <!-- CRITICAL: Allows UnzipService to execute in the background -->
+        <service
+            android:name="net.minetest.minetest.UnzipService"
+            android:exported="false" />
+
     </application>
 
 </manifest>
+        
