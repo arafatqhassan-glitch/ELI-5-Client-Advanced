@@ -2,19 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Basic App Hardware & Feature Requirements -->
+    <!-- Hardware Features -->
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="true" />
 
-    <!-- Network Permissions (For Multiplayer & Server Downloads) -->
+    <!-- Network Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!-- Storage Permissions for /storage/emulated/0/ELI5 Access -->
+    <!-- Storage Permissions -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" tools:ignore="ScopedStorage" />
-    
-    <!-- Full File Access Permission for Android 11+ (API 30+) -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
 
     <application
@@ -24,12 +22,13 @@
         android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+        android:theme="@style/AppTheme">
 
-        <!-- Main Native Activity Entry Point -->
+        <!-- Main Launcher Activity -->
         <activity
             android:name="net.minetest.minetest.MainActivity"
             android:label="ELI 5"
+            android:theme="@style/AppTheme"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|navigation|uiMode"
             android:exported="true"
             android:launchMode="singleTask"
@@ -40,7 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- Metadata pointing to the engine's compiled C++ shared library -->
+            <!-- Native Library Handoff -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="luanti" />
@@ -49,4 +48,3 @@
     </application>
 
 </manifest>
-            
