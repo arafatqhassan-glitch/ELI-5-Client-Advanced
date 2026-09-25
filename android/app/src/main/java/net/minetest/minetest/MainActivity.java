@@ -27,6 +27,9 @@ import static net.minetest.minetest.UnzipService.*;
 
 public class MainActivity extends AppCompatActivity {
     public static final String NOTIFICATION_CHANNEL_ID = "Minetest channel";
+    public static final int NOTIFICATION_ID_UNZIP = 1;
+    public static final int NOTIFICATION_ID_GAME = 2;
+
     private static final int PERMISSION_REQUEST_CODE = 100;
 
     private final static int versionCode = BuildConfig.VERSION_CODE;
@@ -78,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
                 PrintWriter pw = new PrintWriter(file);
                 throwable.printStackTrace(pw);
                 pw.close();
-            } catch (Exception ignored) {}System.exit(1);
+            } catch (Exception ignored) {}
+            System.exit(1);
         });
 
         super.onCreate(savedInstanceState);
@@ -213,5 +217,4 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(myReceiver);
     }
-			}
-							   
+}
