@@ -1,6 +1,7 @@
 package net.minetest.minetest;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -20,11 +21,19 @@ public class Utils {
 
 	@NonNull
 	public static File getUserDataDirectory(@NonNull Context context) {
-		File extDir = Objects.requireNonNull(
-			context.getExternalFilesDir(null),
-			"Cannot get external file directory"
-		);
-		return createDirs(extDir, "Minetest");
+		// Custom path: /storage/emulated/0/ELI5
+		File customDir = new File(Environment.getExternalStorageDirectory(), "ELI5");
+		if (!customDir.exists()) {
+			if (!customDir.mkdirs()) {
+				Log.e("Utils", "Failed to create custom directory: " + customDir.getAbsolutePath());
+				// Fallback to standard app-specific external directory if custom creation fails
+				File extDir = context.getExternalFilesDir(null);
+				if (extDir != null) {
+					return createDirs(extDir, "ELI5");
+				}
+			}
+		}
+		return customDir;
 	}
 
 	@NonNull
