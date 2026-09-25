@@ -24,7 +24,7 @@
         android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar.Fullscreen">
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
 
         <!-- Main Native Activity Entry Point -->
         <activity
@@ -49,3 +49,4 @@
     </application>
 
 </manifest>
+            
