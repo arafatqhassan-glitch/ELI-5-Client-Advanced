@@ -35,15 +35,6 @@ public class UnzipService extends IntentService {
         isRunning = true;
         File targetDir = Utils.getUserDataDirectory(this);
 
-        // Debug output to verify service execution
-        try {
-            File logFile = new File(getExternalFilesDir(null), "debug_unzip.txt");
-            PrintWriter pw = new PrintWriter(logFile);
-            pw.println("UnzipService started.");
-            pw.println("Target dir: " + targetDir.getAbsolutePath());
-            pw.close();
-        } catch (Exception ignored) {}
-
         try (InputStream is = getAssets().open("assets.zip");
              ZipInputStream zis = new ZipInputStream(is)) {
 
@@ -51,7 +42,15 @@ public class UnzipService extends IntentService {
             byte[] buffer = new byte[8192];
 
             while ((entry = zis.getNextEntry()) != null) {
-                File file = new File(targetDir, entry.getName());
+                String name = entry.getName();
+
+                // Strip leading "assets/" or top folder wrapper if present in zip
+                if (name.startsWith("assets/")) {
+                    name = name.substring(7);
+                }
+                if (name.isEmpty()) continue;
+
+                File file = new File(targetDir, name);
                 if (entry.isDirectory()) {
                     file.mkdirs();
                 } else {
