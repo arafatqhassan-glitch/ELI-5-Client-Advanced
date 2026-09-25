@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,8 +27,6 @@ import static net.minetest.minetest.UnzipService.*;
 
 public class MainActivity extends AppCompatActivity {
     public static final String NOTIFICATION_CHANNEL_ID = "Minetest channel";
-    public static final int NOTIFICATION_ID_UNZIP = 1;
-    public static final int NOTIFICATION_ID_GAME = 2;
     private static final int PERMISSION_REQUEST_CODE = 100;
 
     private final static int versionCode = BuildConfig.VERSION_CODE;
@@ -81,8 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 PrintWriter pw = new PrintWriter(file);
                 throwable.printStackTrace(pw);
                 pw.close();
-            } catch (Exception ignored) {}
-            System.exit(1);
+            } catch (Exception ignored) {}System.exit(1);
         });
 
         super.onCreate(savedInstanceState);
@@ -148,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
                 checkAppVersion();
             } else {
-                Toast.makeText(this, "Storage permission is required to extract game files!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "All Files Access is required to extract assets and support mods!", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -160,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
             if (checkStoragePermissions()) {
                 checkAppVersion();
             } else {
-                Toast.makeText(this, "Storage permission is required to extract game files!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "All Files Access is required to extract assets and support mods!", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -217,5 +213,5 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         unregisterReceiver(myReceiver);
     }
-				}
-	
+			}
+							   
