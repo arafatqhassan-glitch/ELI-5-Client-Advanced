@@ -24,20 +24,14 @@ public class Utils {
 
     @NonNull
     public static File getUserDataDirectory(@NonNull Context context) {
-        // 1. Try public storage (/storage/emulated/0/ELI5)
+        // Strictly force public root directory: /storage/emulated/0/ELI5
         File primaryDir = new File(Environment.getExternalStorageDirectory(), "ELI5");
-        if (primaryDir.exists() || primaryDir.mkdirs()) {
-            return primaryDir;
+        if (!primaryDir.exists()) {
+            if (!primaryDir.mkdirs()) {
+                Log.e(TAG, "Could not create public directory at " + primaryDir.getAbsolutePath());
+            }
         }
-
-        // 2. Fallback to scoped app storage (Android/data/client.eli5.game/files/ELI5)
-        File fallbackDir = context.getExternalFilesDir(null);
-        if (fallbackDir != null) {
-            return createDirs(fallbackDir, "ELI5");
-        }
-
-        // 3. Last resort internal storage
-        return createDirs(context.getFilesDir(), "ELI5");
+        return primaryDir;
     }
 
     @NonNull
@@ -55,5 +49,4 @@ public class Utils {
             new File(userDataDirectory, "client").isDirectory() &&
             new File(userDataDirectory, "textures").isDirectory();
     }
-	}
-			
+}
