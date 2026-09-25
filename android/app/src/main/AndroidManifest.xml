@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- Main Launcher Activity -->
+        <!-- Main Extraction / Splash Launcher Activity -->
         <activity
             android:name="net.minetest.minetest.MainActivity"
             android:label="ELI 5"
@@ -37,14 +37,24 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
 
-            <!-- Native Library Handoff -->
+        <!-- Native C++ Game Engine Entry Point -->
+        <activity
+            android:name="net.minetest.minetest.GameActivity"
+            android:label="ELI 5"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|screenLayout|navigation|uiMode"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="sensorLandscape">
+
+            <!-- Links Java execution to native C++ shared library -->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="luanti" />
         </activity>
 
-        <!-- CRITICAL: Allows UnzipService to execute in the background -->
+        <!-- Background Asset Extraction Service -->
         <service
             android:name="net.minetest.minetest.UnzipService"
             android:exported="false" />
@@ -52,4 +62,4 @@
     </application>
 
 </manifest>
-        
+            
