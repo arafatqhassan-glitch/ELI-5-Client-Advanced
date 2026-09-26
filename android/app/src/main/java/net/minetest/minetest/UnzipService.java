@@ -2,7 +2,9 @@ package net.minetest.minetest;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Environment;
 import android.util.Log;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -33,7 +35,15 @@ public class UnzipService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         isRunning = true;
-        File targetDir = Utils.getUserDataDirectory(this);
+
+        // Force root path strictly to /storage/emulated/0/ELI5
+        File targetDir = new File(Environment.getExternalStorageDirectory(), "ELI5");
+
+        // Ensure the base ELI5 folder exists before starting
+        if (!targetDir.exists()) {
+            boolean created = targetDir.mkdirs();
+            Log.d("UnzipService", "Creating ELI5 base folder: " + created);
+        }
 
         try (InputStream is = getAssets().open("assets.zip");
              ZipInputStream zis = new ZipInputStream(is)) {
@@ -44,7 +54,7 @@ public class UnzipService extends IntentService {
             while ((entry = zis.getNextEntry()) != null) {
                 String name = entry.getName();
 
-                // Strip leading "assets/" prefix if present
+                // Strip leading "assets/" or top-level zip folder prefix
                 if (name.startsWith("assets/")) {
                     name = name.substring(7);
                 }
@@ -55,12 +65,10 @@ public class UnzipService extends IntentService {
                 if (entry.isDirectory()) {
                     file.mkdirs();
                 } else {
-                    // CRITICAL FIX: Always ensure parent directories exist before writing
+                    // FORCE PARENT DIRECTORY CREATION BEFORE CREATING FILE
                     File parent = file.getParentFile();
                     if (parent != null && !parent.exists()) {
-                        if (!parent.mkdirs()) {
-                            Log.e("UnzipService", "Failed to create directory: " + parent.getAbsolutePath());
-                        }
+                        parent.mkdirs();
                     }
 
                     try (FileOutputStream fos = new FileOutputStream(file)) {
@@ -95,4 +103,4 @@ public class UnzipService extends IntentService {
         }
     }
 				}
-												 
+				
