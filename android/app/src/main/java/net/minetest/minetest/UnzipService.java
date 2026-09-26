@@ -44,20 +44,25 @@ public class UnzipService extends IntentService {
             while ((entry = zis.getNextEntry()) != null) {
                 String name = entry.getName();
 
-                // Strip leading "assets/" or top folder wrapper if present in zip
+                // Strip leading "assets/" prefix if present
                 if (name.startsWith("assets/")) {
                     name = name.substring(7);
                 }
                 if (name.isEmpty()) continue;
 
                 File file = new File(targetDir, name);
+
                 if (entry.isDirectory()) {
                     file.mkdirs();
                 } else {
+                    // CRITICAL FIX: Always ensure parent directories exist before writing
                     File parent = file.getParentFile();
                     if (parent != null && !parent.exists()) {
-                        parent.mkdirs();
+                        if (!parent.mkdirs()) {
+                            Log.e("UnzipService", "Failed to create directory: " + parent.getAbsolutePath());
+                        }
                     }
+
                     try (FileOutputStream fos = new FileOutputStream(file)) {
                         int count;
                         while ((count = zis.read(buffer)) != -1) {
@@ -89,4 +94,5 @@ public class UnzipService extends IntentService {
             isRunning = false;
         }
     }
-}
+				}
+												 
